@@ -1,14 +1,7 @@
 package com.sample.quizapp.ui.theme.screens
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.res.Configuration
-import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -58,7 +51,7 @@ fun QuizPageScreen(
     updateLength: () -> Unit,
     checkLength: MutableState<Int>,
     correctAnswer: MutableState<Boolean>,
-    screenCheck: MutableState<String>
+    navigate: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     LaunchedEffect(key1 = true) {
@@ -69,7 +62,7 @@ fun QuizPageScreen(
                 if (checkLength.value != length.value) {
                     updateLength()
                 } else {
-                    screenCheck.value = "resultScreen"
+                    navigate()
                 }
                 timerRestart()
             }
@@ -89,7 +82,8 @@ fun QuizPageScreen(
                 updateLength = updateLength,
                 checkLength = checkLength,
                 correctAnswer = correctAnswer,
-                screenCheck = screenCheck
+                navigate
+
             )
         }
 
@@ -105,7 +99,7 @@ fun QuizPageScreen(
                 updateLength = updateLength,
                 checkLength = checkLength,
                 correctAnswer = correctAnswer,
-                screenCheck = screenCheck
+                navigate
             )
         }
     }
@@ -123,7 +117,7 @@ fun QuizScreenLandScape(
     updateLength: () -> Unit,
     checkLength: MutableState<Int>,
     correctAnswer: MutableState<Boolean>,
-    screenCheck: MutableState<String>
+   navigate: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -164,7 +158,7 @@ fun QuizScreenLandScape(
                 length,
                 correctAnswer,
                 checkLength,
-                screenCheck,
+                navigate,
                 0.6f
             )
         }
@@ -183,7 +177,7 @@ fun QuizScreenPortrait(
     updateLength: () -> Unit,
     checkLength: MutableState<Int>,
     correctAnswer: MutableState<Boolean>,
-    screenCheck: MutableState<String>
+    navigate: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -219,7 +213,7 @@ fun QuizScreenPortrait(
             length,
             correctAnswer,
             checkLength,
-            screenCheck,
+            navigate,
             0.5f
         )
     }
@@ -390,7 +384,7 @@ fun QuizScreenButton(
     length: MutableState<Int>,
     correctAnswer: MutableState<Boolean>,
     checkLength: MutableState<Int>,
-    screenCheck: MutableState<String>,
+    navigate: () -> Unit,
     height: Float
 ) {
     Button(
@@ -406,7 +400,7 @@ fun QuizScreenButton(
                 buttonEnable.value = false
                 updateLength()
             } else {
-                screenCheck.value = "resultScreen"
+              navigate()
             }
         }, enabled = buttonEnable.value,
         modifier = Modifier

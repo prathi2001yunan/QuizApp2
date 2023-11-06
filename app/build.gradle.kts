@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jlleitschuh.gradle.ktlint") version ("11.0.0")
 }
 android {
     namespace = "com.sample.quizapp"
@@ -47,21 +46,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    tasks.getByPath("preBuild").dependsOn("ktlintFormat")
-    ktlint {
-        val android = true
-        val ignoreFailures = false
-        version.set("0.45.2")
-        disabledRules.set(
-            setOf(
-                "final-newline",
-                "no-wildcard-imports",
-                "max_line_length",
-                "import-ordering",
-                "no-unused-imports"
-            )
-        )
-    }
+
 
     dependencies {
 
@@ -80,5 +65,6 @@ android {
         androidTestImplementation("androidx.compose.ui:ui-test-junit4")
         debugImplementation("androidx.compose.ui:ui-tooling")
         debugImplementation("androidx.compose.ui:ui-test-manifest")
+        implementation("androidx.navigation:navigation-compose:2.5.3")
     }
 }

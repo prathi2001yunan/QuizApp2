@@ -37,7 +37,8 @@ import com.sample.quizapp.ui.theme.statusBarPadding
 fun ResultScreen(
     userName: MutableState<String>,
     score: MutableState<Int>,
-    clearAll: () -> Unit
+    clearAll: () -> Unit,
+    navigate: () -> Unit
 ) {
     Column(
         Modifier
@@ -94,7 +95,9 @@ fun ResultScreen(
                     lineHeight = 30.sp
                 )
                 Button(
-                    onClick = { clearAll() },
+                    onClick = {
+                        navigate()
+                        clearAll() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(60.dp)

@@ -8,13 +8,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.sample.quizapp.ui.theme.QuizAppTheme
 import com.sample.quizapp.ui.theme.ViewModelClass
+import com.sample.quizapp.ui.theme.navigation.NavGraph
 import com.sample.quizapp.ui.theme.screens.LogInScreen
 import com.sample.quizapp.ui.theme.screens.QuizPageScreen
 import com.sample.quizapp.ui.theme.screens.ResultScreen
 
 class MainActivity : ComponentActivity() {
+    private lateinit var naveController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -24,26 +28,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val view by viewModels<ViewModelClass>()
-                    when (view.screenCheck.value) {
-                        "quizScreen" ->
-                            QuizPageScreen(
-                                view.selectedOption,
-                                view.onOptionSelected,
-                                view.buttonEnable,
-                                view.time,
-                                { view.timerRestart() },
-                                { view.updateScore() },
-                                view.questionLength,
-                                { view.updateQuestionLength() },
-                                view.checkLength,
-                                view.correctAnswer,
-                                view.screenCheck
-                            )
+                    naveController = rememberNavController()
+                    NavGraph(view = view, navController = naveController )
 
-                        "loginScreen" -> LogInScreen(userName = view.userName, view.screenCheck)
-
-                        else -> ResultScreen(view.userName, view.score) { view.clearState() }
-                    }
                 }
             }
         }

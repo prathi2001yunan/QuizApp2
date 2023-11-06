@@ -1,6 +1,7 @@
 package com.sample.quizapp.ui.theme.screens
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -18,45 +21,61 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sample.quizapp.R
 import com.sample.quizapp.ui.theme.navigationBarPadding
 import com.sample.quizapp.ui.theme.statusBarPadding
+import androidx.compose.material3.TopAppBarColors as TopAppBarColors
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogInScreen(
     userName: MutableState<String>,
-    screenCheck: MutableState<String>
+    navigate: () -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(
-                top = MaterialTheme.statusBarPadding(),
-                bottom = MaterialTheme.navigationBarPadding()
-            ),
-        Arrangement.Center,
-        Alignment.CenterHorizontally
-    ) {
-        LoginPageCardView(userName, screenCheck)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(
+                    top = MaterialTheme.statusBarPadding(),
+                    bottom = MaterialTheme.navigationBarPadding()
+                ),
+            Arrangement.Center,
+            Alignment.CenterHorizontally
+        ) {
+        Image(
+            painter = painterResource(id = R.drawable.crypton_tech ),
+            contentDescription = "",
+            Modifier.size(150.dp) )
+        LoginPageCardView(userName, navigate)
+
     }
 }
+
 
 @Composable
 private fun LoginPageCardView(
     userName: MutableState<String>,
-    screenCheck: MutableState<String>
+    navigate: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
     var paddingWidth = 0.dp
@@ -64,7 +83,7 @@ private fun LoginPageCardView(
     when (configuration.orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
             paddingWidth = 150.dp
-            cardHeight = 0.8f
+            cardHeight = 1f
         }
 
         else -> {
@@ -86,7 +105,7 @@ private fun LoginPageCardView(
             Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Welcome To the Quiz Game",
+                text = "Crypton Tech Quiz",
                 fontSize = 25.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color(0xFF474B50)
@@ -94,9 +113,10 @@ private fun LoginPageCardView(
             Spacer(modifier = Modifier.fillMaxHeight(0.1f))
             LoginPageText(userName)
             Spacer(modifier = Modifier.height(10.dp))
-            LoginPageButton(userName, screenCheck)
+            LoginPageButton(userName, navigate)
         }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -122,10 +142,10 @@ private fun LoginPageText(userName: MutableState<String>) {
 @Composable
 private fun LoginPageButton(
     userName: MutableState<String>,
-    screenCheck: MutableState<String>
+    navigate: () -> Unit
 ) {
     Button(
-        onClick = { screenCheck.value = "quizScreen" },
+        onClick = {navigate()},
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)

@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 
 class ViewModelClass : ViewModel() {
     var userName = mutableStateOf("")
-    var screenCheck = mutableStateOf("loginScreen")
     var time = mutableStateOf(60)
     val selectedOption = mutableStateOf("")
     val onOptionSelected = mutableStateOf("")
@@ -28,7 +27,6 @@ class ViewModelClass : ViewModel() {
 
     fun clearState() {
         userName.value = ""
-        screenCheck.value = "loginScreen"
         time.value = 60
         selectedOption.value = ""
         onOptionSelected.value = ""
